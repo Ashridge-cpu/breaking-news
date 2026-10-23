@@ -28,14 +28,14 @@
   // ---------- fetching ----------
   function timeoutFetch(url, ms, opts) {
     var ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-    var t = setTimeout(function () { if (ctl) ctl.abort(); }, ms || 12000);
+    var t = setTimeout(function () { if (ctl) ctl.abort(); }, ms || 10000);
     var o = Object.assign({ cache: 'no-store' }, opts || {}); if (ctl) o.signal = ctl.signal;
     return fetch(url, o).finally(function () { clearTimeout(t); });
   }
   function okText(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); }
   // Ways to fetch a cross-site URL, tried in order. The one that last worked is tried first next time.
   var ROUTES = [
-    { name: 'direct', get: function (u) { return timeoutFetch(u, 9000).then(okText); } },
+    { name: 'direct', get: function (u) { return timeoutFetch(u, 8000).then(okText); } },
     { name: 'feedrapp', json: true, conv: fromFeedrapp, get: function (u) { return timeoutFetch('https://www.feedrapp.info/?num=40&q=' + encodeURIComponent(u)).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) { if (j.responseStatus !== 200 || !j.responseData || !j.responseData.feed) throw new Error('Not a feed'); return j; }); } },
     { name: 'allorigins', get: function (u) { return timeoutFetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(u)).then(okText); } },
     { name: 'cors.lol', get: function (u) { return timeoutFetch('https://api.cors.lol/?url=' + encodeURIComponent(u)).then(okText); } },
@@ -44,9 +44,13 @@
     { name: 'rss2json', json: true, conv: fromRss2json, get: function (u) { return timeoutFetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(u)).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) { if (j.status !== 'ok') throw new Error(j.message || 'rss2json error'); return j; }); } }
   ];
   var preferred = load('bn.route', 'direct');
+  var down = {}; // route name -> time until which we skip it (it failed with a network/server error)
   function fetchVia(url, wantFeed) {
+    var now = Date.now();
     var order = ROUTES.slice().sort(function (a, b) { return (b.name === preferred) - (a.name === preferred); });
     if (!wantFeed) order = order.filter(function (r) { return !r.json; });
+    var up = order.filter(function (r) { return r.name === 'direct' || !(down[r.name] > now); });
+    if (up.length > 1) order = up;
     var i = 0, lastErr;
     function next() {
       if (i >= order.length) return Promise.reject(lastErr || new Error('No route worked'));
@@ -55,10 +59,16 @@
         if (wantFeed) {
           var items = r.json ? r.conv(res) : parseFeed(res);
           if (!items) throw new Error('Not a feed');
-          return { items: items, via: r.name };
+          var title = r.name === 'feedrapp' ? res.responseData.feed.title : r.name === 'rss2json' ? (res.feed || {}).title : feedTitle(res);
+          return { items: items, via: r.name, title: clean(title || '', 60) };
         }
         return { text: res, via: r.name };
-      }).then(function (v) { if (r.name !== 'direct') { preferred = r.name; save('bn.route', r.name); } return v; }, function (e) { lastErr = e; return next(); });
+      }).then(function (v) { if (r.name !== 'direct' && r.name !== preferred) { preferred = r.name; save('bn.route', r.name); } return v; }, function (e) {
+        lastErr = e;
+        var m = (e && e.message) || '';
+        if (r.name !== 'direct' && (!/^HTTP \d/.test(m) || /^HTTP (5\d\d|429|403)/.test(m)) && !/Not a feed|empty|error/i.test(m)) down[r.name] = Date.now() + 10 * 60 * 1000;
+        return next();
+      });
     }
     return next();
   }
@@ -283,6 +293,12 @@
     try { new URL(url); } catch (e) { return Promise.reject(new Error('That doesn\'t look like a web address.')); }
     var msg = $('addMsg');
     msg.className = 'msg'; msg.textContent = 'Checking ' + url + ' …';
+    var looksLikeFeed = /(rss|atom|feed|\.xml)(\/|\?|$)/i.test(url);
+    var first = looksLikeFeed ? fetchVia(url, true).then(function (x) { if (!x.items.length) throw 0; return { url: url, items: x.items, title: x.title }; }) : Promise.reject();
+    return first.catch(function () { return discoverPage(url); });
+  }
+  function discoverPage(url) {
+    var msg = $('addMsg');
     return fetchVia(url, false).then(function (r) {
       var items = parseFeed(r.text);
       if (items && items.length) return { url: url, items: items, title: feedTitle(r.text) };
@@ -298,7 +314,7 @@
       function tryNext() {
         if (i >= cands.length) throw new Error('Couldn\'t find a news feed (RSS/Atom) on that site.');
         var c = cands[i++];
-        return fetchVia(c, true).then(function (x) { if (!x.items.length) throw 0; return { url: c, items: x.items, title: title }; }, tryNext);
+        return fetchVia(c, true).then(function (x) { if (!x.items.length) throw 0; return { url: c, items: x.items, title: title || x.title }; }, tryNext);
       }
       return tryNext();
     }, function () {
@@ -310,7 +326,7 @@
       function tryNext() {
         if (i >= cands.length) throw new Error('Couldn\'t find a working news feed (RSS/Atom) there. If the site lists an RSS link, paste that address instead.');
         var c = cands[i++];
-        return fetchVia(c, true).then(function (x) { if (!x.items.length) throw 0; return { url: c, items: x.items, title: '' }; }, tryNext);
+        return fetchVia(c, true).then(function (x) { if (!x.items.length) throw 0; return { url: c, items: x.items, title: x.title }; }, tryNext);
       }
       return tryNext();
     });
