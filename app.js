@@ -3,7 +3,7 @@
   'use strict';
   var CHECK_EVERY = 5 * 60 * 1000;
   var CACHE_URL = 'https://raw.githubusercontent.com/Ashridge-cpu/breaking-news/data/feeds.json';
-  var CACHE_MAX_AGE = 30 * 60 * 1000;   // trust the cached copy if it is fresher than this
+  var CACHE_MAX_AGE = 15 * 60 * 1000;   // trust the cached copy if it is fresher than this
   var NEW_BADGE_FOR = 15 * 60 * 1000;   // "New" badge stays this long
   var PAGE = 120;
   var LS = { toggles: 'bn.toggles', custom: 'bn.custom', notify: 'bn.notify', seen: 'bn.seen' };
