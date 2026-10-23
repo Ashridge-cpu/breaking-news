@@ -1,0 +1,436 @@
+[
+ {
+  "id": "bbc-top",
+  "name": "BBC News – Top stories",
+  "cat": "UK national",
+  "url": "https://feeds.bbci.co.uk/news/rss.xml",
+  "site": "https://www.bbc.co.uk/news",
+  "on": true
+ },
+ {
+  "id": "bbc-uk",
+  "name": "BBC News – UK",
+  "cat": "UK national",
+  "url": "https://feeds.bbci.co.uk/news/uk/rss.xml",
+  "site": "https://www.bbc.co.uk/news/uk",
+  "on": true
+ },
+ {
+  "id": "bbc-world",
+  "name": "BBC News – World",
+  "cat": "UK national",
+  "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+  "site": "https://www.bbc.co.uk/news/world",
+  "on": true
+ },
+ {
+  "id": "bbc-politics",
+  "name": "BBC News – Politics",
+  "cat": "UK national",
+  "url": "https://feeds.bbci.co.uk/news/politics/rss.xml",
+  "site": "https://www.bbc.co.uk/news/politics"
+ },
+ {
+  "id": "sky",
+  "name": "Sky News – Home",
+  "cat": "UK national",
+  "url": "https://feeds.skynews.com/feeds/rss/home.xml",
+  "site": "https://news.sky.com",
+  "on": true
+ },
+ {
+  "id": "sky-uk",
+  "name": "Sky News – UK",
+  "cat": "UK national",
+  "url": "https://feeds.skynews.com/feeds/rss/uk.xml",
+  "site": "https://news.sky.com/uk"
+ },
+ {
+  "id": "guardian-uk",
+  "name": "The Guardian – UK",
+  "cat": "UK national",
+  "url": "https://www.theguardian.com/uk-news/rss",
+  "site": "https://www.theguardian.com/uk-news",
+  "on": true
+ },
+ {
+  "id": "guardian-world",
+  "name": "The Guardian – World",
+  "cat": "UK national",
+  "url": "https://www.theguardian.com/world/rss",
+  "site": "https://www.theguardian.com/world"
+ },
+ {
+  "id": "independent",
+  "name": "The Independent – UK",
+  "cat": "UK national",
+  "url": "https://www.independent.co.uk/news/uk/rss",
+  "site": "https://www.independent.co.uk"
+ },
+ {
+  "id": "telegraph",
+  "name": "The Telegraph (via Google News)",
+  "cat": "UK national",
+  "url": "https://news.google.com/rss/search?q=site:telegraph.co.uk+when:1d&hl=en-GB&gl=GB&ceid=GB:en",
+  "site": "https://www.telegraph.co.uk"
+ },
+ {
+  "id": "itv",
+  "name": "ITV News",
+  "cat": "UK national",
+  "url": "https://www.itv.com/news/rss",
+  "site": "https://www.itv.com/news",
+  "alt": "https://news.google.com/rss/search?q=site:itv.com/news+when:1d&hl=en-GB&gl=GB&ceid=GB:en"
+ },
+ {
+  "id": "c4",
+  "name": "Channel 4 News",
+  "cat": "UK national",
+  "url": "https://www.channel4.com/news/feed",
+  "site": "https://www.channel4.com/news"
+ },
+ {
+  "id": "mirror",
+  "name": "The Mirror – News",
+  "cat": "UK national",
+  "url": "https://www.mirror.co.uk/news/?service=rss",
+  "site": "https://www.mirror.co.uk"
+ },
+ {
+  "id": "evstandard",
+  "name": "Evening Standard",
+  "cat": "UK national",
+  "url": "https://www.standard.co.uk/news/rss",
+  "site": "https://www.standard.co.uk"
+ },
+ {
+  "id": "reuters",
+  "name": "Reuters (via Google News)",
+  "cat": "World",
+  "url": "https://news.google.com/rss/search?q=site:reuters.com+when:1d&hl=en-GB&gl=GB&ceid=GB:en",
+  "site": "https://www.reuters.com",
+  "on": true
+ },
+ {
+  "id": "ap",
+  "name": "AP News (via Google News)",
+  "cat": "World",
+  "url": "https://news.google.com/rss/search?q=site:apnews.com+when:1d&hl=en-GB&gl=GB&ceid=GB:en",
+  "site": "https://apnews.com"
+ },
+ {
+  "id": "aljazeera",
+  "name": "Al Jazeera",
+  "cat": "World",
+  "url": "https://www.aljazeera.com/xml/rss/all.xml",
+  "site": "https://www.aljazeera.com",
+  "on": true
+ },
+ {
+  "id": "cnn",
+  "name": "CNN – Top stories",
+  "cat": "World",
+  "url": "http://rss.cnn.com/rss/edition.rss",
+  "site": "https://edition.cnn.com",
+  "alt": "https://news.google.com/rss/search?q=site:cnn.com+when:1d&hl=en-GB&gl=GB&ceid=GB:en"
+ },
+ {
+  "id": "npr",
+  "name": "NPR News",
+  "cat": "World",
+  "url": "https://feeds.npr.org/1001/rss.xml",
+  "site": "https://www.npr.org"
+ },
+ {
+  "id": "dw",
+  "name": "DW News",
+  "cat": "World",
+  "url": "https://rss.dw.com/rdf/rss-en-all",
+  "site": "https://www.dw.com"
+ },
+ {
+  "id": "france24",
+  "name": "France 24",
+  "cat": "World",
+  "url": "https://www.france24.com/en/rss",
+  "site": "https://www.france24.com/en/"
+ },
+ {
+  "id": "euronews",
+  "name": "Euronews",
+  "cat": "World",
+  "url": "https://www.euronews.com/rss?level=theme&name=news",
+  "site": "https://www.euronews.com"
+ },
+ {
+  "id": "abc-au",
+  "name": "ABC News (Australia)",
+  "cat": "World",
+  "url": "https://www.abc.net.au/news/feed/2942460/rss.xml",
+  "site": "https://www.abc.net.au/news"
+ },
+ {
+  "id": "un",
+  "name": "UN News",
+  "cat": "World",
+  "url": "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
+  "site": "https://news.un.org"
+ },
+ {
+  "id": "verge",
+  "name": "The Verge",
+  "cat": "Tech",
+  "url": "https://www.theverge.com/rss/index.xml",
+  "site": "https://www.theverge.com",
+  "on": true
+ },
+ {
+  "id": "ars",
+  "name": "Ars Technica",
+  "cat": "Tech",
+  "url": "https://feeds.arstechnica.com/arstechnica/index",
+  "site": "https://arstechnica.com"
+ },
+ {
+  "id": "techcrunch",
+  "name": "TechCrunch",
+  "cat": "Tech",
+  "url": "https://techcrunch.com/feed/",
+  "site": "https://techcrunch.com"
+ },
+ {
+  "id": "wired",
+  "name": "Wired",
+  "cat": "Tech",
+  "url": "https://www.wired.com/feed/rss",
+  "site": "https://www.wired.com"
+ },
+ {
+  "id": "bbc-tech",
+  "name": "BBC News – Technology",
+  "cat": "Tech",
+  "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
+  "site": "https://www.bbc.co.uk/news/technology",
+  "on": true
+ },
+ {
+  "id": "engadget",
+  "name": "Engadget",
+  "cat": "Tech",
+  "url": "https://www.engadget.com/rss.xml",
+  "site": "https://www.engadget.com"
+ },
+ {
+  "id": "register",
+  "name": "The Register",
+  "cat": "Tech",
+  "url": "https://www.theregister.com/headlines.atom",
+  "site": "https://www.theregister.com"
+ },
+ {
+  "id": "guardian-tech",
+  "name": "The Guardian – Technology",
+  "cat": "Tech",
+  "url": "https://www.theguardian.com/uk/technology/rss",
+  "site": "https://www.theguardian.com/uk/technology"
+ },
+ {
+  "id": "hn",
+  "name": "Hacker News – Front page",
+  "cat": "Tech",
+  "url": "https://hnrss.org/frontpage",
+  "site": "https://news.ycombinator.com"
+ },
+ {
+  "id": "bbc-business",
+  "name": "BBC News – Business",
+  "cat": "Business & markets",
+  "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+  "site": "https://www.bbc.co.uk/news/business",
+  "on": true
+ },
+ {
+  "id": "cnbc",
+  "name": "CNBC – Top news",
+  "cat": "Business & markets",
+  "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+  "site": "https://www.cnbc.com"
+ },
+ {
+  "id": "marketwatch",
+  "name": "MarketWatch – Top stories",
+  "cat": "Business & markets",
+  "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+  "site": "https://www.marketwatch.com"
+ },
+ {
+  "id": "ft",
+  "name": "Financial Times – Home",
+  "cat": "Business & markets",
+  "url": "https://www.ft.com/rss/home",
+  "site": "https://www.ft.com"
+ },
+ {
+  "id": "ft-uk",
+  "name": "Financial Times – UK",
+  "cat": "Business & markets",
+  "url": "https://www.ft.com/rss/home/uk",
+  "site": "https://www.ft.com"
+ },
+ {
+  "id": "guardian-biz",
+  "name": "The Guardian – Business",
+  "cat": "Business & markets",
+  "url": "https://www.theguardian.com/uk/business/rss",
+  "site": "https://www.theguardian.com/uk/business"
+ },
+ {
+  "id": "sky-biz",
+  "name": "Sky News – Business",
+  "cat": "Business & markets",
+  "url": "https://feeds.skynews.com/feeds/rss/business.xml",
+  "site": "https://news.sky.com/business"
+ },
+ {
+  "id": "bbc-cov",
+  "name": "BBC – Coventry & Warwickshire",
+  "cat": "Local",
+  "url": "https://feeds.bbci.co.uk/news/england/coventry_and_warwickshire/rss.xml",
+  "site": "https://www.bbc.co.uk/news/england/coventry_and_warwickshire",
+  "on": true
+ },
+ {
+  "id": "bbc-bham",
+  "name": "BBC – Birmingham & Black Country",
+  "cat": "Local",
+  "url": "https://feeds.bbci.co.uk/news/england/birmingham_and_black_country/rss.xml",
+  "site": "https://www.bbc.co.uk/news/england/birmingham_and_black_country"
+ },
+ {
+  "id": "stratford-herald",
+  "name": "Stratford Herald",
+  "cat": "Local",
+  "url": "https://www.stratford-herald.com/feed/",
+  "site": "https://www.stratford-herald.com"
+ },
+ {
+  "id": "cov-telegraph",
+  "name": "Coventry Live",
+  "cat": "Local",
+  "url": "https://www.coventrytelegraph.net/?service=rss",
+  "site": "https://www.coventrytelegraph.net"
+ },
+ {
+  "id": "bbc-science",
+  "name": "BBC News – Science & environment",
+  "cat": "Science & health",
+  "url": "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
+  "site": "https://www.bbc.co.uk/news/science_and_environment"
+ },
+ {
+  "id": "bbc-health",
+  "name": "BBC News – Health",
+  "cat": "Science & health",
+  "url": "https://feeds.bbci.co.uk/news/health/rss.xml",
+  "site": "https://www.bbc.co.uk/news/health"
+ },
+ {
+  "id": "guardian-science",
+  "name": "The Guardian – Science",
+  "cat": "Science & health",
+  "url": "https://www.theguardian.com/science/rss",
+  "site": "https://www.theguardian.com/science"
+ },
+ {
+  "id": "newscientist",
+  "name": "New Scientist",
+  "cat": "Science & health",
+  "url": "https://www.newscientist.com/feed/home/",
+  "site": "https://www.newscientist.com"
+ },
+ {
+  "id": "sciencedaily",
+  "name": "ScienceDaily – Top news",
+  "cat": "Science & health",
+  "url": "https://www.sciencedaily.com/rss/top/science.xml",
+  "site": "https://www.sciencedaily.com"
+ },
+ {
+  "id": "nasa",
+  "name": "NASA – Breaking news",
+  "cat": "Science & health",
+  "url": "https://www.nasa.gov/news-release/feed/",
+  "site": "https://www.nasa.gov"
+ },
+ {
+  "id": "bbc-sport",
+  "name": "BBC Sport",
+  "cat": "Sport",
+  "url": "https://feeds.bbci.co.uk/sport/rss.xml",
+  "site": "https://www.bbc.co.uk/sport",
+  "on": true
+ },
+ {
+  "id": "bbc-football",
+  "name": "BBC Sport – Football",
+  "cat": "Sport",
+  "url": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+  "site": "https://www.bbc.co.uk/sport/football"
+ },
+ {
+  "id": "bbc-cricket",
+  "name": "BBC Sport – Cricket",
+  "cat": "Sport",
+  "url": "https://feeds.bbci.co.uk/sport/cricket/rss.xml",
+  "site": "https://www.bbc.co.uk/sport/cricket"
+ },
+ {
+  "id": "bbc-rugby",
+  "name": "BBC Sport – Rugby union",
+  "cat": "Sport",
+  "url": "https://feeds.bbci.co.uk/sport/rugby-union/rss.xml",
+  "site": "https://www.bbc.co.uk/sport/rugby-union"
+ },
+ {
+  "id": "bbc-f1",
+  "name": "BBC Sport – Formula 1",
+  "cat": "Sport",
+  "url": "https://feeds.bbci.co.uk/sport/formula1/rss.xml",
+  "site": "https://www.bbc.co.uk/sport/formula1"
+ },
+ {
+  "id": "sky-sports",
+  "name": "Sky Sports – News",
+  "cat": "Sport",
+  "url": "https://www.skysports.com/rss/12040",
+  "site": "https://www.skysports.com"
+ },
+ {
+  "id": "guardian-sport",
+  "name": "The Guardian – Sport",
+  "cat": "Sport",
+  "url": "https://www.theguardian.com/uk/sport/rss",
+  "site": "https://www.theguardian.com/uk/sport"
+ },
+ {
+  "id": "bbc-ent",
+  "name": "BBC News – Entertainment & arts",
+  "cat": "Culture & other",
+  "url": "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
+  "site": "https://www.bbc.co.uk/news/entertainment_and_arts"
+ },
+ {
+  "id": "guardian-culture",
+  "name": "The Guardian – Culture",
+  "cat": "Culture & other",
+  "url": "https://www.theguardian.com/uk/culture/rss",
+  "site": "https://www.theguardian.com/uk/culture"
+ },
+ {
+  "id": "govuk",
+  "name": "GOV.UK – News & announcements",
+  "cat": "Culture & other",
+  "url": "https://www.gov.uk/search/news-and-communications.atom",
+  "site": "https://www.gov.uk"
+ }
+]

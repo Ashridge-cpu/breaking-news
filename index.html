@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#05070f">
+<meta name="description" content="Breaking news headlines from the sources you choose, checked every 5 minutes.">
+<title>Breaking News</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+<header class="top">
+  <div class="brand">
+    <img src="icon-192.png" alt="" width="40" height="40">
+    <div>
+      <h1>Breaking News</h1>
+      <div class="sub"><span class="live-dot" aria-hidden="true"></span><span id="status">Starting up…</span></div>
+    </div>
+  </div>
+  <div class="actions">
+    <button id="refreshBtn" class="btn primary" title="Check all sources now"><span class="spin" aria-hidden="true">⟳</span> Refresh</button>
+    <button id="sourcesBtn" class="btn" aria-controls="panel" aria-expanded="false">Sources <span id="srcCount" class="pill">0</span></button>
+    <button id="installBtn" class="btn ghost" hidden>Install app</button>
+  </div>
+</header>
+
+<section class="toolbar">
+  <input id="search" type="search" placeholder="Search headlines…" autocomplete="off" aria-label="Search headlines">
+  <select id="filter" aria-label="Filter by source"><option value="">All sources</option></select>
+  <select id="catFilter" aria-label="Filter by category"><option value="">All categories</option></select>
+  <label class="chk"><input id="notifyToggle" type="checkbox"> Desktop alerts</label>
+</section>
+
+<div id="newBanner" class="new-banner" hidden></div>
+
+<main>
+  <ul id="list" class="list" aria-live="polite"></ul>
+  <div id="empty" class="empty" hidden></div>
+  <div class="more-wrap"><button id="moreBtn" class="btn" hidden>Show more</button></div>
+</main>
+
+<footer class="foot">
+  <span id="foot">Headlines open on the publisher's site in a new tab.</span>
+</footer>
+
+<aside id="panel" class="panel" aria-hidden="true">
+  <div class="panel-head">
+    <h2>Sources</h2>
+    <button id="closePanel" class="btn ghost" aria-label="Close">Close ✕</button>
+  </div>
+  <p class="hint">Switch sources on or off. A red dot means that source didn't respond on the last check – it will be tried again automatically.</p>
+  <form id="addForm" class="add">
+    <h3>Add your own source</h3>
+    <input id="addName" placeholder="Name (e.g. Leamington Courier)" maxlength="60">
+    <input id="addUrl" placeholder="Feed URL or website address" required>
+    <button class="btn primary" id="addBtn">Add source</button>
+    <div id="addMsg" class="msg" role="status"></div>
+  </form>
+  <div id="groups"></div>
+  <div class="panel-foot">
+    <button id="resetBtn" class="btn ghost small">Reset to default sources</button>
+  </div>
+</aside>
+<div id="scrim" class="scrim" hidden></div>
+<script src="app.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+name: Cache built-in feeds
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['sources.json', 'scripts/**']
+permissions:
+  contents: write
+concurrency:
+  group: feeds
+  cancel-in-progress: false
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch feeds
+        run: mkdir -p out && python3 scripts/fetch_feeds.py sources.json out/feeds.json
+      - name: Publish to data branch (single commit, no history build-up)
+        run: |
+          cd out
+          git init -q -b data
+          git config user.name "feeds-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add feeds.json
+          git commit -q -m "Feed cache $(date -u +%FT%TZ)"
+          git push -q --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
