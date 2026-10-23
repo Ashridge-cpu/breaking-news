@@ -36,10 +36,12 @@
   // Ways to fetch a cross-site URL, tried in order. The one that last worked is tried first next time.
   var ROUTES = [
     { name: 'direct', get: function (u) { return timeoutFetch(u, 9000).then(okText); } },
+    { name: 'feedrapp', json: true, conv: fromFeedrapp, get: function (u) { return timeoutFetch('https://www.feedrapp.info/?num=40&q=' + encodeURIComponent(u)).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) { if (j.responseStatus !== 200 || !j.responseData || !j.responseData.feed) throw new Error('Not a feed'); return j; }); } },
     { name: 'allorigins', get: function (u) { return timeoutFetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(u)).then(okText); } },
+    { name: 'cors.lol', get: function (u) { return timeoutFetch('https://api.cors.lol/?url=' + encodeURIComponent(u)).then(okText); } },
     { name: 'codetabs', get: function (u) { return timeoutFetch('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u)).then(okText); } },
-    { name: 'everyorigin', get: function (u) { return timeoutFetch('https://everyorigin.jwvbremen.nl/get?url=' + encodeURIComponent(u)).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) { if (!j || !j.html) throw new Error('empty'); return j.html; }); } },
-    { name: 'rss2json', json: true, get: function (u) { return timeoutFetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(u)).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) { if (j.status !== 'ok') throw new Error(j.message || 'rss2json error'); return j; }); } }
+    { name: 'everyorigin', get: function (u) { return timeoutFetch('https://everyorigin.jwvbremen.nl/api/get?url=' + encodeURIComponent(u)).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) { if (!j || !j.html) throw new Error('empty'); return j.html; }); } },
+    { name: 'rss2json', json: true, conv: fromRss2json, get: function (u) { return timeoutFetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(u)).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (j) { if (j.status !== 'ok') throw new Error(j.message || 'rss2json error'); return j; }); } }
   ];
   var preferred = load('bn.route', 'direct');
   function fetchVia(url, wantFeed) {
@@ -51,7 +53,7 @@
       var r = order[i++];
       return r.get(url).then(function (res) {
         if (wantFeed) {
-          var items = r.json ? fromRss2json(res) : parseFeed(res);
+          var items = r.json ? r.conv(res) : parseFeed(res);
           if (!items) throw new Error('Not a feed');
           return { items: items, via: r.name };
         }
@@ -90,6 +92,9 @@
   }
   function fromRss2json(j) {
     return (j.items || []).map(function (it) { return { t: clean(it.title, 300), l: it.link, s: clean(it.description), d: Date.parse((it.pubDate || '').replace(' ', 'T') + 'Z') || 0 }; }).filter(function (i) { return i.t && i.l; });
+  }
+  function fromFeedrapp(j) {
+    return (j.responseData.feed.entries || []).map(function (it) { return { t: clean(it.title, 300), l: it.link, s: clean(it.contentSnippet || it.content), d: Date.parse(it.publishedDate) || 0 }; }).filter(function (i) { return i.t && i.l; });
   }
   function tidy(src, items) {
     var gn = /news\.google\.com/.test(src.url);
@@ -285,7 +290,7 @@
       var links = [].slice.call(doc.querySelectorAll('link[rel~="alternate"][href]')).filter(function (l) { return /(rss|atom|xml)/i.test(l.getAttribute('type') || ''); });
       var cands = links.map(function (l) { return new URL(l.getAttribute('href'), url).href; });
       var base = new URL(url);
-      ['/feed', '/rss', '/rss.xml', '/feed.xml', '/atom.xml', '/index.xml', '/feeds/posts/default'].forEach(function (p) { cands.push(base.origin + p); });
+      ['/feed/', '/rss', '/rss.xml', '/feed.xml', '/atom.xml', '/index.xml', '/feeds/posts/default'].forEach(function (p) { cands.push(base.origin + p); });
       cands = cands.filter(function (v, i) { return cands.indexOf(v) === i; });
       var title = (doc.querySelector('meta[property="og:site_name"]') || {}).content || (doc.title || '').trim();
       msg.textContent = 'Looking for a news feed on that site…';
@@ -297,7 +302,17 @@
       }
       return tryNext();
     }, function () {
-      return fetchVia(url, true).then(function (x) { return { url: url, items: x.items, title: '' }; }, function () { throw new Error('Couldn\'t reach that address. Check it and try again.'); });
+      // page itself unreachable through the browser: try it, and the usual feed addresses, as feeds
+      var base = new URL(url), cands = [url];
+      ['/feed/', '/rss', '/rss.xml', '/feed.xml', '/atom.xml', '/index.xml'].forEach(function (p) { cands.push(base.origin + p); });
+      msg.textContent = 'Looking for a news feed on that site…';
+      var i = 0;
+      function tryNext() {
+        if (i >= cands.length) throw new Error('Couldn\'t find a working news feed (RSS/Atom) there. If the site lists an RSS link, paste that address instead.');
+        var c = cands[i++];
+        return fetchVia(c, true).then(function (x) { if (!x.items.length) throw 0; return { url: c, items: x.items, title: '' }; }, tryNext);
+      }
+      return tryNext();
     });
   }
   function feedTitle(t) { var m = /<title[^>]*>(?:<!\[CDATA\[)?([^<\]]+)/i.exec(t || ''); return m ? clean(m[1], 60) : ''; }
